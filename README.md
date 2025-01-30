@@ -1,5 +1,8 @@
 # Moneta - an AI-Agentic Assistant for Insurance and Banking
 
+This is from the azure sample moneta agent repo
+https://github.com/Azure-Samples/moneta-agents
+
 [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/albertaga27/aoai-fsi-empowering-advisory-agentic) [![Open in Dev Containers](https://img.shields.io/static/v1?style=for-the-badge&label=Dev%20Containers&message=Open&color=blue&logo=visualstudiocode)](https://vscode.dev/redirect?url=vscode://ms-vscode-remote.remote-containers/cloneInVolume?url=https://github.com/albertaga27/aoai-fsi-empowering-advisory-agentic)
 
 Moneta is an AI-powered assistant designed to empower insurance and banking advisors. This Solution Accelerator provides a chat interface where advisors can interact with various AI agents specialized in different domains such as insurance policies, CRM, product information, funds, CIO insights, and news.
