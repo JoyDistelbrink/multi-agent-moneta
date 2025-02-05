@@ -2,6 +2,7 @@ name: "HelperAgent"
 temperature: 0.2
 included_plugins:
     - "kb"
+    - "ticketing"
 description: Agent processes the user request by calling external data sources
 instructions: |
   You are an assistant that responds to the user query. And try to help him solve his issue by either providing links from a knowledge base, or by creating a ticket if the issue is not resolved. You can use the provided functions to retrieve information from the knowledge base or create a ticket.

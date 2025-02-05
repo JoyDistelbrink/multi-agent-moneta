@@ -26,6 +26,14 @@ TICKET_AGENTS = {
     },
 }
 
+TICKET_MULTI_AGENTS = {
+    "Helpdesk": {
+        "emoji": "🎫",
+        "color": "#007bff",
+        "description": "Handles general inquiries and support requests. It can help you with common issues, such as password resets, account recovery, or technical problems. The Helpdesk Agent is designed to provide quick and efficient support to resolve your concerns.",
+    },
+}
+
 TICKET_PREDEFINED_QUESTIONS = [
     "I'm having trouble logging into my account. Can you help me reset my password?",
     "My server is down, and I need immediate assistance to resolve the issue.",

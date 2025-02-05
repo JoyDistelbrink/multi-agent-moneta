@@ -4,6 +4,7 @@ import json
 from sk.orchestrators.insurance import InsuranceOrchestrator
 from sk.orchestrators.banking import BankingOrchestrator
 from sk.orchestrators.ticketing import TicketingOrchestrator
+from sk.orchestrators.ticketing_multi import TicketingMultiOrchestrator
 
 
 class SemanticKernelHandler:
@@ -16,6 +17,7 @@ class SemanticKernelHandler:
         self.orchestrators["fsi_insurance"] = InsuranceOrchestrator()
         self.orchestrators["fsi_banking"] = BankingOrchestrator()
         self.orchestrators["fsi_ticketing"] = TicketingOrchestrator()
+        self.orchestrators["fsi_ticketingmulti"] = TicketingMultiOrchestrator()
 
     def load_history(self, user_id):
         user_data = self.history_db.read_user_info(user_id)

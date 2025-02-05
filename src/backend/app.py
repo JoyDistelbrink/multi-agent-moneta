@@ -33,7 +33,7 @@ logging.getLogger("azure.core.pipeline.policies.http_logging_policy").setLevel(
     logging.WARNING
 )
 logging.getLogger("azure.monitor.opentelemetry.exporter.export").setLevel(
-    logging.WARNING
+    logging.CRITICAL
 )
 
 app = FastAPI()
@@ -78,6 +78,8 @@ async def http_trigger(request_body: dict = Body(...)):
         elif usecase_type == "fsi_banking":
             container_name = os.getenv("COSMOSDB_CONTAINER_FSI_BANK_USER_NAME")
         elif usecase_type == "fsi_ticketing":
+            container_name = os.getenv("COSMOSDB_CONTAINER_FSI_BANK_USER_NAME")
+        elif usecase_type == "fsi_ticketingmulti":
             container_name = os.getenv("COSMOSDB_CONTAINER_FSI_BANK_USER_NAME")
         else:
             raise HTTPException(

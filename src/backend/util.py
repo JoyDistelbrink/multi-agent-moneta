@@ -39,6 +39,7 @@ from azure.monitor.opentelemetry.exporter import (
 
 from sk.orchestrators.custom_span_processor import CustomSpanProcessor
 
+
 def load_dotenv_from_azd():
     result = run("azd env get-values", stdout=PIPE, stderr=PIPE, shell=True, text=True)
     if result.returncode == 0:
@@ -48,7 +49,14 @@ def load_dotenv_from_azd():
         logging.info(f"AZD environment not found. Trying to load from .env file...")
         load_dotenv()
 
-telemetry_resource = Resource.create({ResourceAttributes.SERVICE_NAME: os.getenv("AZURE_RESOURCE_GROUP","ai-accelerator")})
+
+telemetry_resource = Resource.create(
+    {
+        ResourceAttributes.SERVICE_NAME: os.getenv(
+            "AZURE_RESOURCE_GROUP", "ai-accelerator"
+        )
+    }
+)
 
 # Set endpoint to the local Aspire Dashboard endpoint to enable local telemetry - DISABLED by default
 local_endpoint = None
@@ -57,8 +65,12 @@ local_endpoint = None
 
 def set_up_tracing():
     exporters = []
-    exporters.append(AzureMonitorTraceExporter.from_connection_string(os.getenv("APPLICATIONINSIGHTS_CONNECTION_STRING")))
-    if (local_endpoint):
+    exporters.append(
+        AzureMonitorTraceExporter.from_connection_string(
+            os.getenv("APPLICATIONINSIGHTS_CONNECTION_STRING")
+        )
+    )
+    if local_endpoint:
         exporters.append(OTLPSpanExporter(endpoint=local_endpoint))
 
     tracer_provider = TracerProvider(resource=telemetry_resource)
@@ -70,11 +82,18 @@ def set_up_tracing():
 
 def set_up_metrics():
     exporters = []
-    if (local_endpoint):
+    if local_endpoint:
         exporters.append(OTLPMetricExporter(endpoint=local_endpoint))
-    exporters.append(AzureMonitorMetricExporter.from_connection_string(os.getenv("APPLICATIONINSIGHTS_CONNECTION_STRING")))
+    exporters.append(
+        AzureMonitorMetricExporter.from_connection_string(
+            os.getenv("APPLICATIONINSIGHTS_CONNECTION_STRING")
+        )
+    )
 
-    metric_readers = [PeriodicExportingMetricReader(exporter, export_interval_millis=5000) for exporter in exporters]
+    metric_readers = [
+        PeriodicExportingMetricReader(exporter, export_interval_millis=5000)
+        for exporter in exporters
+    ]
 
     meter_provider = MeterProvider(
         metric_readers=metric_readers,
@@ -90,9 +109,13 @@ def set_up_metrics():
 
 def set_up_logging():
     exporters = []
-    exporters.append(AzureMonitorLogExporter(connection_string=os.getenv("APPLICATIONINSIGHTS_CONNECTION_STRING")))
+    exporters.append(
+        AzureMonitorLogExporter(
+            connection_string=os.getenv("APPLICATIONINSIGHTS_CONNECTION_STRING")
+        )
+    )
 
-    if (local_endpoint):
+    if local_endpoint:
         exporters.append(OTLPLogExporter(endpoint=local_endpoint))
     # exporters.append(ConsoleLogExporter())
 
@@ -118,11 +141,18 @@ def set_up_logging():
             "semantic_kernel.prompt_template.kernel_prompt_template",
             # "semantic_kernel.functions.kernel_function",
             "azure.monitor.opentelemetry.exporter.export._base",
-            "azure.core.pipeline.policies.http_logging_policy"
+            "azure.core.pipeline.policies.http_logging_policy",
+            "opentelemetry.sdk.metrics._internal",
+            "azure.identity._credentials",
         ]
 
         def filter(self, record):
-            return not any([record.name.startswith(namespace) for namespace in self.namespaces_to_exclude])
+            return not any(
+                [
+                    record.name.startswith(namespace)
+                    for namespace in self.namespaces_to_exclude
+                ]
+            )
 
     # FILTER - WHAT TO LOG - EXPLICITLY
     # handler.addFilter(logging.Filter("semantic_kernel"))

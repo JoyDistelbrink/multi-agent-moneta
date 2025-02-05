@@ -8,7 +8,7 @@ from semantic_kernel.functions import kernel_function
 # from crm_store import CRMStore
 
 
-class KBFacade:
+class TicketingFacade:
     """
     The class acts as an facade for the crm_store.
     The facade is only required if the same CRM Store to be used by both Vanilla and SK frameworks
@@ -24,29 +24,33 @@ class KBFacade:
         self.kb_db = None
 
     @kernel_function(
-        name="categorize_ticket",
-        description="Use this function to categorize the issue based on the description of the issue",
+        name="get_ticket_fields",
+        description="Get the fields required to create a ticket",
     )
-    def categorize_ticket(
-        self, issue_content: Annotated[str, "The issue content to categorize"]
-    ) -> Annotated[str, "The output is the category of the issue"]:
-        print("categorize_ticket")
-        print("Categorizing ticket: server")
-
+    def get_ticket_fields(
+        self, ticket_type: Annotated[str, "The ticket type to search for"]
+    ) -> Annotated[str, "The output is the fields required to create a ticket"]:
+        print("get_ticket_fields")
+        print("Ticket fields: name, email, description, server_name, server_ip")
         # response = self.crm_db.get_customer_profile_by_full_name(topic_name)
         # return json.dumps(response) if response else None
-        return "server"
+        return "The fields are: name, email, description, server_name, server_ip"
 
     @kernel_function(
-        name="load_from_kb_by_topic",
-        description="Load self service help data from the knowledge base by topic",
+        name="create_ticket",
+        description="Create a ticket in the ticketting system",
     )
-    def load_from_kb_by_topic(
-        self, topic_name: Annotated[str, "The topic to search for"]
-    ) -> Annotated[str, "The output is a solution to the help issue"]:
+    def create_ticket(
+        self,
+        ticket_type: Annotated[str, "The ticket type to create"],
+        ticket_data: Annotated[str, "The ticket data to create the ticket"],
+    ) -> Annotated[str, "The output is the ticket id"]:
+        print("create_ticket")
+        print("Creating ticket:", ticket_type)
+        print("Ticket data:", ticket_data)
         # response = self.crm_db.get_customer_profile_by_full_name(topic_name)
         # return json.dumps(response) if response else None
-        return "To fix your help issue, please follow the steps: 1. Turn off the device. 2. Turn it back on. 3. If the issue persists, contact support."
+        return "14233987"
 
     # @kernel_function(
     #     name="load_from_crm_by_client_id",

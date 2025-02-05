@@ -15,6 +15,7 @@ from semantic_kernel.functions import KernelPlugin, KernelFunctionFromPrompt
 
 # from sk.skills.crm_facade import CRMFacade
 from sk.skills.kb_facade import KBFacade
+from sk.skills.ticketing_facade import TicketingFacade
 from sk.skills.policies_facade import PoliciesFacade
 from sk.orchestrators.semantic_orchestrator import SemanticOrchastrator
 
@@ -25,12 +26,8 @@ class TicketingOrchestrator(SemanticOrchastrator):
         self.logger = logging.getLogger(__name__)
         self.logger.debug("Ticketing Orchestrator init")
 
-        kb = KBFacade(
-            key=DefaultAzureCredential(),
-            cosmosdb_endpoint=os.getenv("COSMOSDB_ENDPOINT"),
-            crm_database_name=os.getenv("COSMOSDB_DATABASE_NAME"),
-            crm_container_name=os.getenv("COSMOSDB_CONTAINER_CLIENT_NAME"),
-        )
+        kb = KBFacade()
+        ticketing = TicketingFacade()
 
         # product = PoliciesFacade(
         #     credential=DefaultAzureCredential(),
@@ -43,6 +40,9 @@ class TicketingOrchestrator(SemanticOrchastrator):
             services=[self.gpt4o_service],
             plugins=[
                 KernelPlugin.from_object(plugin_instance=kb, plugin_name="kb"),
+                KernelPlugin.from_object(
+                    plugin_instance=ticketing, plugin_name="ticketing"
+                ),
             ],
         )
 

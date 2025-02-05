@@ -9,6 +9,7 @@ from config import (
     INS_AGENTS,
     BANK_AGENTS,
     TICKET_AGENTS,
+    TICKET_MULTI_AGENTS,
     INS_PREDEFINED_QUESTIONS,
     BANK_PREDEFINED_QUESTIONS,
     TICKET_PREDEFINED_QUESTIONS,
@@ -132,7 +133,12 @@ def display_sidebar():
         st.write("Empowering Advisors with AI")
         st.write(f"Welcome, {st.session_state.display_name}!")
 
-        use_case_options = ["fsi_insurance", "fsi_banking", "fsi_ticketing"]
+        use_case_options = [
+            "fsi_insurance",
+            "fsi_banking",
+            "fsi_ticketing",
+            "fsi_ticketingmulti",
+        ]
         selected_use_case = st.selectbox(
             "Select Use Case",
             use_case_options,
@@ -153,6 +159,8 @@ def display_sidebar():
             st.session_state.AGENTS = INS_AGENTS
         elif st.session_state.use_case == "fsi_ticketing":
             st.session_state.AGENTS = TICKET_AGENTS
+        elif st.session_state.use_case == "fsi_ticketingmulti":
+            st.session_state.AGENTS = TICKET_MULTI_AGENTS
         else:
             st.session_state.AGENTS = BANK_AGENTS
 
@@ -285,6 +293,8 @@ def display_chat():
     if st.session_state.use_case == "fsi_banking":
         predefined_questions = BANK_PREDEFINED_QUESTIONS
     elif st.session_state.use_case == "fsi_ticketing":
+        predefined_questions = TICKET_PREDEFINED_QUESTIONS
+    elif st.session_state.use_case == "fsi_ticketingmulti":
         predefined_questions = TICKET_PREDEFINED_QUESTIONS
     else:
         predefined_questions = INS_PREDEFINED_QUESTIONS
@@ -448,6 +458,8 @@ def main():
         st.session_state.AGENTS = INS_AGENTS
     elif st.session_state.use_case == "fsi_ticketing":
         st.session_state.AGENTS = TICKET_AGENTS
+    elif st.session_state.use_case == "fsi_ticketingmulti":
+        st.session_state.AGENTS = TICKET_MULTI_AGENTS
     else:
         st.session_state.AGENTS = BANK_AGENTS
 

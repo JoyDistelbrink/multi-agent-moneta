@@ -1,0 +1,7 @@
+name: "SubmissionAgent"
+temperature: 0.2
+included_plugins:
+    - "ticketing"
+description: A submission agent that can submit well formed JSON strucured issues to the central ticketing system
+instructions: |
+            A submission agent that can submit well formed JSON strucured issues to the central ticketing system
